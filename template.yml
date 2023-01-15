@@ -5,11 +5,8 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       SecurityGroups:
-        - !Ref InstanceSecurityGroup
-      # Change this, as applicable to you      
-      KeyName: agilobi
-      # Change this, as applicable to you
-      # You may need to find out what instance types are available in your region - use https://cloud-images.ubuntu.com/locator/ec2/
+        - !Ref InstanceSecurityGroup            
+      KeyName: agilobi      
       ImageId: 'ami-06878d265978313ca' 
       InstanceType: t3.micro
   InstanceSecurityGroup:
