@@ -1,5 +1,15 @@
 version: 2.1
 
+commands:
+   # Exercise - Rollback
+   destroy_environment:
+     steps:
+       - run:
+           name: Destroy environment
+           when: on_fail
+           command: |
+             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
+
 jobs:  
   create_infrastructure: 
     docker:
@@ -11,7 +21,10 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file template.yml \
-            --stack-name my-simStack
+            --stack-name simStack-${CIRCLE_WORKFLOW_ID:0:7}
+      - run: return 1
+      - destroy_environment
+
   configure_infrastructure: 
     docker:
       - image: python:3.7-alpine3.11
@@ -32,5 +45,5 @@ jobs:
 workflows:
   myWorkflow:
     jobs:
-      - create_infrastruture
+      - create_infrastructure
       - configure_infrastructure
