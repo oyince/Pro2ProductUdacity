@@ -1,0 +1,9 @@
+- name: web server in an EC   
+  hosts: all
+  # For Ubuntu instances, the user will be `ubuntu`
+  user: ubuntu
+  become: true
+  become_method: sudo
+  become_user: root
+  roles:
+   - setup
