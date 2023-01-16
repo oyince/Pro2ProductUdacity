@@ -7,11 +7,12 @@ commands:
    # Exercise - Rollback
    destroy_environment:
      steps:
-       - run:
+       - run:            
             name: Destroy environment           
+            when: on_fail
             command: |
               aws cloudformation delete-stack --stack-name simstack-01
-            when: on_fail
+            
 
 jobs:  
   create_infrastructure: 
@@ -44,7 +45,7 @@ jobs:
           command: |
             ansible-playbook -i inventory.txt main.yml
       - run: return 1        
-      
+      - destroy_environment
      
 workflows:
   myWorkflow:
@@ -53,4 +54,3 @@ workflows:
       - configure_infrastructure:
           requires:
             - create_infrastructure
-      - destroy_environment
