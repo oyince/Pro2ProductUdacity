@@ -11,7 +11,7 @@ commands:
             name: Destroy environment           
             when: on_fail
             command: |
-              aws cloudformation delete-stack --stack-name simstack-01
+              aws cloudformation delete-stack --stack-name simStack-01
             
 
 jobs:  
