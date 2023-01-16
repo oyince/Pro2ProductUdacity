@@ -12,10 +12,26 @@ jobs:
             aws cloudformation deploy \
               --template-file template.yml \
               --stack-name simStack-${CIRCLE_WORKFLOW_ID:0:7} \
-              --region us-east-1 
+              --region us-east-1
+  configure_infrastructure: 
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["e3:b3:dd:33:af:1e:15:83:a5:ec:dc:79:e6:f9:4b:52"]
+      - run:
+          name: Install dependencies
+          command: |
+            # install the dependencies needed for your playbook
+            apk add --update ansible 
+      - run:
+          name: Configure server
+          command: |
+            #ansible-playbook -i inventory.txt main.yml
       
 workflows:
   myWorkflow:
     jobs:
       - create_infrastructure
-      #- configure_infrastructure
+      - configure_infrastructure
