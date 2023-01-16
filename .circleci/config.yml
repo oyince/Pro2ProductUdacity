@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
-  
+
 commands:
    # Exercise - Rollback
    destroy_environment:
@@ -11,7 +11,7 @@ commands:
            name: Destroy environment
            when: on_fail
            command: |
-             aws cloudformation delete-stack --stack-name simstack-${CIRCLE_WORKFLOW_ID:0:7}
+             aws cloudformation delete-stack --stack-name simstack-01
 
 jobs:  
   create_infrastructure: 
@@ -24,7 +24,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file template.yml \
-              --stack-name simStack-${CIRCLE_WORKFLOW_ID:0:7} \
+              --stack-name simStack-01 \
               --region us-east-1
       - run: return 1        
       - destroy_environment        
@@ -49,6 +49,6 @@ workflows:
   myWorkflow:
     jobs:
       - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+      #- configure_infrastructure:
+          #requires:
+            #- create_infrastructure
