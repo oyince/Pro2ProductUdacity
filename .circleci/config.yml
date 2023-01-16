@@ -8,10 +8,10 @@ commands:
    destroy_environment:
      steps:
        - run:
-           name: Destroy environment
-           when: on_fail
-           command: |
-             aws cloudformation delete-stack --stack-name simstack-01
+            name: Destroy environment           
+            command: |
+              aws cloudformation delete-stack --stack-name simstack-01
+            when: on_fail
 
 jobs:  
   create_infrastructure: 
@@ -27,7 +27,8 @@ jobs:
               --stack-name simStack-01 \
               --region us-east-1
       - run: return 1        
-      - destroy_environment        
+      - destroy_environment
+     
   configure_infrastructure: 
     docker:
       - image: python:3.7-alpine3.11
